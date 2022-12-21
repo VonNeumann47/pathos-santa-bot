@@ -1,0 +1,9 @@
+nltk
+numpy
+pymorphy2
+PyTelegramBotAPI
+razdel
+requests
+vedis
+wikipedia
+yadisk
