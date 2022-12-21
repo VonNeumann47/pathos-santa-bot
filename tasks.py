@@ -64,7 +64,7 @@ def check_gcd(text: str) -> bool:
     return False
 
 
-MAX_ATTEMPTS = 2
+MAX_ATTEMPTS = 5
 
 TASKS = [
     Task(  # 1: prime global constants

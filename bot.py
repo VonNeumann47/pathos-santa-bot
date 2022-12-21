@@ -60,6 +60,7 @@ def start_dialog(msg: tb.types.Message) -> None:
         'Пиши `/start`, если хочешь, чтобы я поприветствовал тебя. Можно повторять, хотя это и бесит.\n'
         'Жми `/play`, чтобы поиграть. Но помни: поиграть можно лишь один раз, и прервать игру не выйдет!\n'
         'Если ты в игре, пиши `/repeat`, чтобы я скопипастил тебе вопрос и ты не листал вверх, коть\n'
+        'Милашик, забыл, сколько баллов у тебя? Пиши `/score`. Только не часто ^^\n'
         'А ещё ты можешь мне просто _написать_. И мы поболтаем :)\n'
         'Масянь, я очень много всего знаю! Люблю питон, NLP, искусственный интеллект, кошечек и кондитерку.\n'
         'Если ты тоже пушистый, умный, безумный красавчик и/или просто котя и хочешь поболтать, то вот он я :)\n'
@@ -201,6 +202,30 @@ def repeat_task(msg: tb.types.Message) -> None:
 
     time = dt.fromtimestamp(msg.date).strftime('%d %b %Y %H:%M:%S')
     log(uid, f'{time=}', '[repeat]', f'{answer=}')
+    state.append_history(uid=uid, tag='repeat', answer=answer)
+    save_history(uid, state)
+
+    bot.send_message(uid, answer, parse_mode='markdown')
+
+
+@bot.message_handler(commands=['score'])
+def ask_score(msg: tb.types.Message) -> None:
+    uid = msg.chat.id
+    cloud_download_files()
+    state = read_history(uid)
+
+    word_points = MORPH \
+        .parse('балл')[0] \
+        .inflect({'plur', 'nomn'}) \
+        .make_agree_with_number(state.points) \
+        .word
+    answer = (
+        'Повторяю. Но *только* потому что я добряк безмерный :)\n'
+        f'У тебя сейчас {state.points} {word_points}'
+    )
+
+    time = dt.fromtimestamp(msg.date).strftime('%d %b %Y %H:%M:%S')
+    log(uid, f'{time=}', '[score]', f'{answer=}')
     state.append_history(uid=uid, tag='repeat', answer=answer)
     save_history(uid, state)
 
