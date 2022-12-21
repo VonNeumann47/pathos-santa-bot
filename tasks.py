@@ -49,7 +49,7 @@ def check_gcd(text: str) -> bool:
 
         tester = GcdTester()
         assert tester.main(*numbers[:2]) == 42
-        assert tester.main(*numbers[2:4]) == 0
+        assert any(numbers[2:4]) and tester.main(*numbers[2:4]) == 0
         assert tester.main(*numbers[4:6]) == np.iinfo(np.int32).min
         try:
             tester.main(*numbers[6:8])
