@@ -232,6 +232,26 @@ def ask_score(msg: tb.types.Message) -> None:
     bot.send_message(uid, answer, parse_mode='markdown')
 
 
+@bot.message_handler(func=lambda msg: msg.text.startswith('/'))
+def bad_command(msg: tb.types.Message) -> None:
+    uid = msg.chat.id
+    text = msg.text
+    cloud_download_files()
+
+    answer = (
+        'Бусь, ты опечатался! Я такой команды не знаю.\n'
+        'Впредь будь осторожнее: я могу _обидеться_...'
+    )
+
+    time = dt.fromtimestamp(msg.date).strftime('%d %b %Y %H:%M:%S')
+    log(uid, f'{time=}', '[bad-cmd]', f'{text=}', f'{answer=}')
+    state = read_history(uid)
+    state.append_history(uid=uid, tag='bad-cmd', text=text, answer=answer)
+    save_history(uid, state)
+
+    bot.send_message(uid, answer, parse_mode='markdown')
+
+
 @bot.message_handler(func=lambda msg: is_playing(msg.chat.id))
 def tasks_story_line(msg: tb.types.Message) -> None:
     uid = msg.chat.id
