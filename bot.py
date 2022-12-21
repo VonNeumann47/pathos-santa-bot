@@ -26,9 +26,30 @@ from utils import *
 try:
     bot = tb.TeleBot(BOT_TOKEN)
 except tb.apihelper.ApiTelegramException:
-    log("One of the threads couldn't capture the ownership over the Telegram bot. It's gonna sleep forever...")
+    log(
+        "One of the threads couldn't capture the ownership "
+        "over the Telegram bot. It's gonna sleep forever..."
+    )
     while True:
         sleep(1)
+
+
+@bot.message_handler(func=lambda msg: len(msg.text) > MAX_QUESTION_LEN)
+def too_long(msg: tb.types.Message) -> None:
+    uid = msg.chat.id
+    text = msg.text
+    cloud_download_files()
+
+    answer = choice(QA_TOO_LONG)
+    text = f'{text[:MAX_QUESTION_LEN]}<...>'
+
+    time = dt.fromtimestamp(msg.date).strftime('%d %b %Y %H:%M:%S')
+    log(uid, f'{time=}', '[too-long]', f'{text=}', f'{answer=}')
+    state = read_history(uid)
+    state.append_history(uid=uid, tag='too-long', text=text, answer=answer)
+    save_history(uid, state)
+
+    bot.send_message(uid, answer, parse_mode='markdown')
 
 
 @bot.message_handler(commands=['help'])
@@ -403,8 +424,9 @@ def fallback_response(msg: tb.types.Message) -> None:
                 max_len=50,
             )
             for ch in '*_':
-                if answer.count(ch) % 2 != 0:
-                    answer = f'{answer}{ch}'
+                answer = answer.replace(ch, rf'\{ch}')
+                # if answer.count(ch) % 2 != 0:
+                #     answer = f'{answer}{ch}'
     else:
         answer = choice(FALLBACKS)
 
