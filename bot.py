@@ -18,11 +18,17 @@ from fallbacks import (
     QA_START, QA_MIDDLE, QA_END, QA_TOO_LONG, FALLBACKS,
 )
 from ngrams import Talker
+import streamlit as st
 from tasks import TASKS, MAX_ATTEMPTS
 from utils import *
 
 
-bot = tb.TeleBot(BOT_TOKEN)
+try:
+    bot = tb.TeleBot(BOT_TOKEN)
+except tb.apihelper.ApiTelegramException:
+    log("One of the threads couldn't capture the ownership over the Telegram bot. It's gonna sleep forever...")
+    while True:
+        sleep(1)
 
 
 @bot.message_handler(commands=['help'])

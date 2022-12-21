@@ -101,7 +101,7 @@ def cloud_upload_files() -> None:
 
 def log(*args: Any) -> None:
     with lock:
-        logger.info(f'Log: {args}')
+        logger.info(f'Log: {*args}')
         with open(LOG_PATH, 'a', encoding='utf-8') as file:
             print(*args, file=file)
 

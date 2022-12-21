@@ -4,6 +4,7 @@ pymorphy2
 PyTelegramBotAPI
 razdel
 requests
+streamlit
 vedis
 wikipedia
 yadisk
