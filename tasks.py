@@ -50,7 +50,7 @@ def check_gcd(text: str) -> bool:
         tester = GcdTester()
         assert tester.main(*numbers[:2]) == 42
         assert any(numbers[2:4]) and tester.main(*numbers[2:4]) == 0
-        assert tester.main(*numbers[4:6]) == np.iinfo(np.int32).min
+        assert tester.main(*numbers[4:6]) == np.iinfo(np.int32).max
         try:
             tester.main(*numbers[6:8])
         except:
@@ -268,7 +268,7 @@ TASKS = [
             Надо подобрать пары целых чисел, которые нужно ввести, чтобы программа:
             - вывела `42`
             - вывела `0` (но числа должны быть ненулевые!)
-            - вывела минимальное значение типа `np.int32`
+            - вывела максимальное значение типа `np.int32`
             - _крашнулась_ к фигам (Евклид, 298 г. до н.э., цитата)
             И все эти пары надо ввести через пробельчик, по одной паре на каждый кейс.
             Должно получиться всего 8 чисел. Есть идеи?
