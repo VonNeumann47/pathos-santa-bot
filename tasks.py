@@ -27,6 +27,7 @@ class Task:
 
 
 class GcdTester:
+    @staticmethod
     def func(a, b) -> int:
         a, b, ans = map(int, (a, b, a * b))
         if a < b:
@@ -35,17 +36,17 @@ class GcdTester:
             a, b = b, a % b
         return ans // a
 
-    def main(self, text: str) -> int:
+    def main(self, *args: int) -> int:
         with catch_warnings():
             filterwarnings('ignore', category=RuntimeWarning)
-            a, b = map(np.int32, text.split())
-            return func(a, b)
+            a, b = map(np.int32, args)
+            return GcdTester.func(a, b)
 
 
 def check_gcd(text: str) -> bool:
     try:
-        numbers = map(np.int32, text.split())
-        assert len(numbers) == 8, f'Expected 8 numbers, got {len(numbers)}'
+        numbers = list(map(int, text.split()))
+        assert len(numbers) == 8, f'Test 0 failed: expected 8 numbers, got {len(numbers)}'
 
         tester = GcdTester()
         val_1 = tester.main(*numbers[:2])
@@ -68,9 +69,8 @@ def check_gcd(text: str) -> bool:
 
         return True
     except Exception as err:
-        print(f'False: {err}')
+        print('False:', err)
         return False
-    return False
 
 
 MAX_ATTEMPTS = 5
@@ -107,7 +107,7 @@ TASKS = [
         ```
         ''',
         answer=57,
-        points=5,
+        points=4,
     ),
     Task(  # 2: log_2 and powers of 2
         question=r'''
@@ -137,7 +137,7 @@ TASKS = [
             ```
         ''',
         answer=1099511631939,
-        points=6,
+        points=7,
     ),
     Task(  # 3: MRO
         question=r'''
@@ -180,7 +180,7 @@ TASKS = [
             ```
         ''',
         answer=0,
-        points=3,
+        points=2,
     ),
     Task(  # 4: closure, float underflow etc.
         question=r'''
@@ -226,7 +226,7 @@ TASKS = [
             ```
         ''',
         answer=1120,
-        points=4,
+        points=6,
     ),
     Task(  # 5: sqrt is not sqrt
         question=r'''
@@ -251,7 +251,7 @@ TASKS = [
             ```
         ''',
         answer=9007199254740993,
-        points=6,
+        points=5,
     ),
     Task(  # 6: sizeof
         question=r'''
