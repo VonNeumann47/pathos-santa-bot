@@ -45,21 +45,30 @@ class GcdTester:
 def check_gcd(text: str) -> bool:
     try:
         numbers = map(np.int32, text.split())
-        assert len(numbers) == 8
+        assert len(numbers) == 8, f'Expected 8 numbers, got {len(numbers)}'
 
         tester = GcdTester()
-        assert tester.main(*numbers[:2]) == 42
-        assert any(numbers[2:4]) and tester.main(*numbers[2:4]) == 0
-        assert tester.main(*numbers[4:6]) == np.iinfo(np.int32).max
+        val_1 = tester.main(*numbers[:2])
+        assert val_1 == 42, f'Test 1 failed: expected 42, got {val_1}'
+
+        val_2 = tester.main(*numbers[2:4])
+        assert any(numbers[2:4]) and val_2 == 0, f'Test 2 failed: expected 0, got {val_2}'
+
+        val_3 = tester.main(*numbers[4:6])
+        int_max = np.iinfo(np.int32).max
+        assert val_3 == int_max, f'Test 3 failed: expected {int_max}, got {val_3}'
+
         try:
-            tester.main(*numbers[6:8])
+            val_4 = tester.main(*numbers[6:8])
         except:
             pass
         else:
+            print('Test 4 failed :(')
             return False
 
         return True
-    except:
+    except Exception as err:
+        print(f'False: {err}')
         return False
     return False
 
