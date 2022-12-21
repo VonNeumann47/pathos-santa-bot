@@ -7,13 +7,15 @@ from razdel import tokenize
 from patterns import (
     GREET_PATTERNS, EASTER_PATTERNS, PERSONAL_PATTERNS, QUESTION_PATTERNS,
 )
+from utils import MORPH
 
 
 PUNCTUATION = set(punctuation) - {'-'}
-MORPH = MorphAnalyzer()
 
-with open('swears.txt', 'r') as file:
-    SWEARS = file.read().splitlines()
+with open('swears.txt', 'r', encoding='utf-8') as file:
+    SWEARS = set(file.read().splitlines())
+with open('swear_lemmas.txt', 'r', encoding='utf-8') as file:
+    SWEARS |= set(file.read().splitlines())
 
 MEDIA_TYPES = [
     'audio', 'document', 'photo', 'sticker', 'video', 'video_note',
@@ -54,7 +56,9 @@ def is_easter(text: str) -> bool:
 
 def is_toxic(text: str) -> bool:
     for token in tokenize(fast_preprocess(text)):
-        if token.text in SWEARS:
+        word = token.text
+        lemma = MORPH.parse(word)[0].normal_form
+        if word in SWEARS or lemma in SWEARS:
             return True
     return False
 
