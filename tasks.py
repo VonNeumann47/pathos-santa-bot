@@ -216,7 +216,7 @@ TASKS = [
             main()
             ```
         ''',
-        answer=1121,
+        answer=1120,
         points=4,
     ),
     Task(  # 5: sqrt is not sqrt
