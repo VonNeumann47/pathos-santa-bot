@@ -17,7 +17,9 @@ GREET_PATTERNS = compile_regexps([
 
 EASTER_PATTERNS = compile_regexps([
     r'\bnlp\b|\bнлп\b|лингвист|\b(уни?|би|три|квадро|n-?)грамм',
-    # ...
+    r'\bвми?к\b|\bcmc\b|\bмгу\b',
+    r'\bсесси(я|и|ей|й|ях|ями|ям)\b',
+    r'pyqt|\bqt\b|pygame|\bбота(ть|ю|ем|ешь|ла?|ли)\b',
 ])
 
 INTJS = (
