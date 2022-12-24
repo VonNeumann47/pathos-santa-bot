@@ -1,5 +1,6 @@
 import re
 from string import punctuation
+from typing import List, Pattern
 
 from pymorphy2 import MorphAnalyzer
 from razdel import tokenize
@@ -11,11 +12,15 @@ from utils import MORPH
 
 
 PUNCTUATION = set(punctuation) - {'-'}
+SWEAR_SOURCES = [
+    'swears/swears.txt',
+    'swears/swear_lemmas.txt',
+]
 
-with open('swears.txt', 'r', encoding='utf-8') as file:
-    SWEARS = set(file.read().splitlines())
-with open('swear_lemmas.txt', 'r', encoding='utf-8') as file:
-    SWEARS |= set(file.read().splitlines())
+SWEAR = set()
+for path in SWEAR_SOURCES:
+    with open(path, 'r', encoding='utf-8') as file:
+        SWEARS |= set(file.read().splitlines())
 
 MEDIA_TYPES = [
     'audio', 'document', 'photo', 'sticker', 'video', 'video_note',
@@ -30,12 +35,16 @@ def fast_preprocess(text: str) -> str:
     return text
 
 
-def is_greeting(text: str) -> bool:
+def check_patterns(text: str, patterns: List[Pattern]) -> bool:
     processed = fast_preprocess(text)
     return any(
         re.search(pattern, processed) is not None
         for pattern in GREET_PATTERNS
     )
+
+
+def is_greeting(text: str) -> bool:
+    return check_patterns(text, GREET_PATTERNS)
 
 
 def is_imperative(text: str) -> bool:
@@ -47,11 +56,7 @@ def is_imperative(text: str) -> bool:
 
 
 def is_easter(text: str) -> bool:
-    processed = fast_preprocess(text)
-    return any(
-        re.search(pattern, processed) is not None
-        for pattern in EASTER_PATTERNS
-    )
+    return check_patterns(text, EASTER_PATTERNS)
 
 
 def is_toxic(text: str) -> bool:
@@ -64,16 +69,8 @@ def is_toxic(text: str) -> bool:
 
 
 def is_personal(text: str) -> bool:
-    processed = fast_preprocess(text)
-    return any(
-        re.search(pattern, processed) is not None
-        for pattern in PERSONAL_PATTERNS
-    )
+    return check_patterns(text, PERSONAL_PATTERNS)
 
 
 def is_question(text: str) -> bool:
-    processed = fast_preprocess(text)
-    return any(
-        re.search(pattern, processed) is not None
-        for pattern in QUESTION_PATTERNS
-    )
+    return check_patterns(text, QUESTION_PATTERNS)
