@@ -17,7 +17,7 @@ SWEAR_SOURCES = [
     'swears/swear_lemmas.txt',
 ]
 
-SWEAR = set()
+SWEARS = set()
 for path in SWEAR_SOURCES:
     with open(path, 'r', encoding='utf-8') as file:
         SWEARS |= set(file.read().splitlines())
