@@ -9,10 +9,10 @@ class Task:
     def __init__(self,
                  points: int,
                  question: str,
-                 answer: int = None,
+                 answers: List[int] = None,
                  callback: Optional[Callable] = None):
         self._question = question
-        self._answer = answer
+        self._answers = answers or []
         self.points = points
         self._callback = callback
 
@@ -23,7 +23,7 @@ class Task:
         text = ' '.join(text.strip().split())
         if self._callback is not None:
             return self._callback(text)
-        return text.isdigit() and int(text) == self._answer
+        return text.isdigit() and int(text) in self._answers
 
 
 class GcdTester:
@@ -106,7 +106,7 @@ TASKS = [
         main()
         ```
         ''',
-        answer=57,
+        answers=[57],
         points=4,
     ),
     Task(  # 2: log_2 and powers of 2
@@ -136,7 +136,7 @@ TASKS = [
             main()
             ```
         ''',
-        answer=1099511631939,
+        answers=[1099511631939],
         points=7,
     ),
     Task(  # 3: MRO
@@ -179,7 +179,7 @@ TASKS = [
             _ = E()
             ```
         ''',
-        answer=0,
+        answers=[0],
         points=2,
     ),
     Task(  # 4: closure, float underflow etc.
@@ -225,7 +225,7 @@ TASKS = [
             main()
             ```
         ''',
-        answer=1120,
+        answers=[1120, 1152],
         points=6,
     ),
     Task(  # 5: sqrt is not sqrt
@@ -250,7 +250,7 @@ TASKS = [
             main()
             ```
         ''',
-        answer=9007199254740993,
+        answers=[9007199254740993],
         points=5,
     ),
     Task(  # 6: sizeof
@@ -265,7 +265,7 @@ TASKS = [
             [True, False, None, '', 'oh ship', 0, 1, 1073741824, -42]
             ```
         ''',
-        answer=437,
+        answers=[437],
         points=3,
     ),
     Task(  # 7: buggy gcd
