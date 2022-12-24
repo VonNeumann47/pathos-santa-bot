@@ -39,7 +39,7 @@ def check_patterns(text: str, patterns: List[Pattern]) -> bool:
     processed = fast_preprocess(text)
     return any(
         re.search(pattern, processed) is not None
-        for pattern in GREET_PATTERNS
+        for pattern in patterns
     )
 
 
