@@ -14,7 +14,7 @@ from utils import MORPH
 PUNCTUATION = set(punctuation) - {'-'}
 SWEAR_SOURCES = [
     'swears/swears.txt',
-    'swears/swear_lemmas.txt',
+    'swears/lemmas.txt',
 ]
 
 SWEARS = set()
