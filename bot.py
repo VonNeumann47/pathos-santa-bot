@@ -28,12 +28,9 @@ class ExceptionHandler:
         if isinstance(exc_info, tb.apihelper.ApiTelegramException):
             log(
                 "One of the threads couldn't capture the ownership "
-                # "over the Telegram bot. It's gonna sleep forever..."
                 "over the Telegram bot. It's gonna exit now..."
             )
             sys.exit(0)
-            # while True:
-            #     sleep(1)
 
 
 bot = tb.TeleBot(

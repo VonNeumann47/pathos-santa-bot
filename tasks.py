@@ -1,5 +1,5 @@
 from textwrap import dedent
-from typing import Callable, Optional
+from typing import Callable, List, Optional
 from warnings import catch_warnings, filterwarnings
 
 import numpy as np
