@@ -1,6 +1,7 @@
 from datetime import datetime as dt
 from random import choice
 import re
+import sys
 from threading import Thread
 from time import sleep
 
@@ -27,10 +28,12 @@ class ExceptionHandler:
         if isinstance(exc_info, tb.apihelper.ApiTelegramException):
             log(
                 "One of the threads couldn't capture the ownership "
-                "over the Telegram bot. It's gonna sleep forever..."
+                # "over the Telegram bot. It's gonna sleep forever..."
+                "over the Telegram bot. It's gonna exit now..."
             )
-            while True:
-                sleep(1)
+            sys.exit(0)
+            # while True:
+            #     sleep(1)
 
 
 bot = tb.TeleBot(
